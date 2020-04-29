@@ -9,6 +9,7 @@
 <h2>This is a book list</h2>
 <hr />
 
+    <div class="row">
 {% for book in query_set %}
 
     <div class="card" style="width: 18rem;">
@@ -28,4 +29,5 @@
 {#    <p><a href="{% url 'books:book-detail' book.slug %}">{{ book }}</a></p>#}
 
 {% endfor %}
+    </div>
 {% endblock %}
