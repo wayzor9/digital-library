@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+    <div class="container col-md-5">
+<form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button class="btn btn-success" type="submit">Login</button>
+{% for message in messages %}
+    <p > {{ message }} </p>
+{% endfor %}</form>
+    </div>
+{% endblock %}

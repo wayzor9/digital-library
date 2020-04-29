@@ -1,19 +1,19 @@
 {% extends 'base.html' %}
 
 {% block breadcrumb %}
-    <li class="breadcrumb-item" aria-current="page">
+    <li class="breadcrumb-item mt-2" aria-current="page">
         <a href="{% url 'books:book-list'%}">Book list</a>
     </li>
-    <li class="breadcrumb-item" aria-current="page">
+    <li class="breadcrumb-item mt-2" aria-current="page">
         <a href="{{ exercise.chapter.book.get_url }}">
             {{ exercise.chapter.book.title}}</a>
     </li>
-   <li class="breadcrumb-item" aria-current="page">
+   <li class="breadcrumb-item mt-2" aria-current="page">
         <a href="{{ exercise.chapter.get_url}}">
             {{ exercise.chapter.title}}</a>
     </li>
 
-    <li class="breadcrumb-item active" aria-current="page">
+    <li class="breadcrumb-item active mt-2" aria-current="page">
         {{ exercise.title }}
     </li>
 {% endblock breadcrumb%}
