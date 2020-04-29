@@ -28,7 +28,7 @@
             <div class="card-header">{{ exercise.chapter.book.title }}</div>
             <img src="{{exercise.chapter.book.cover.url}}" class="card-img-top" alt="...">
             <div class="card-body">
-                <p class="card-text">Published: {{ chapter.book.publication_date }}</p>
+                <p class="card-text">Published: {{exercise.chapter.book.publication_date}}</p>
             </div>
         </div>
     </main>
@@ -39,6 +39,9 @@
         <div class="card-header">
             Solutions
         </div>
+
+    {% if exercise.chapter.book in request.user.customer.book_list %}
+
 
             {% for solution in exercise.solution_set.all %}
             <div class="accordion" id="toggle-{{ solution.solution_number }}">
@@ -59,6 +62,12 @@
                 </div>
             </div>
             {% endfor %}
+
+        {% else %}
+
+        You do not have access to this book
+
+    {% endif %}
 
         </div>
     </aside>

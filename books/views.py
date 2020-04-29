@@ -22,8 +22,6 @@ class RegistrationView(View):
             user.set_password('password1')
             user.save()
             messages.success(request, "Created account for " + username)
-            # auth_user = authenticate( username = username, password = user.password)
-            # login(request, auth_user)
             return redirect('books:login')
         return render(request, 'register_view.html', {"form": form})
 
@@ -39,8 +37,11 @@ class LoginView(View):
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             auth_user = authenticate(username = username, password = password)
-            login(request, auth_user)
-            return redirect('/')
+            if auth_user is not None:
+                login(request, auth_user)
+                return redirect('/')
+            else:
+                messages.info(request, "Username or Password incorrect")
 
         return render(request, 'login_view.html', {'form': form})
 
@@ -49,7 +50,6 @@ class LogOutView(View):
     def get(self, request):
         logout(request)
         return redirect('/')
-
 
 
 def book_list(request):
