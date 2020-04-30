@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block breadcrumb %}
     <li class="breadcrumb-item mt-2" aria-current="page">
         <a href="{% url 'books:book-list'%}">Book list</a>
@@ -65,8 +65,11 @@
 
         {% else %}
 
-        You do not have access to this book
-
+        <div class="text-center mt-2">
+            <h4>You do not have access to this book.
+            <a href="#"> Purchase now!</a></h4>
+            <img src="{% static 'images/lock.png' %}" width="200px" >
+        </div>
     {% endif %}
 
         </div>

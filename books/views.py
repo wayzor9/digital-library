@@ -17,11 +17,9 @@ class RegistrationView(View):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            username = form.cleaned_data['username']
-            email = form.cleaned_data['email']
-            user.set_password('password1')
+            user.set_password(form.cleaned_data['password1'])
             user.save()
-            messages.success(request, "Created account for " + username)
+            messages.success(request, "Account created successfully for" + user.username )
             return redirect('books:login')
         return render(request, 'register_view.html', {"form": form})
 

@@ -1,6 +1,7 @@
 from django.db import models
 
 # Create your models here.
+from django.db.models.signals import post_save
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.contrib.auth.models import User
@@ -16,6 +17,13 @@ class Customer(models.Model):
     def book_list(self):
         return self.books.all()
 
+def post_signup_user_receiver(sender, instance, created, *args, **kwargs):
+    if created:
+        Customer.objects.get_or_create(user=instance)
+        print(f"CREATE CUSTOMER ---> {instance}")
+
+post_save.connect(post_signup_user_receiver, User)
+
 class Author(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=50)
@@ -27,7 +35,7 @@ class Author(models.Model):
 class Book(models.Model):
     authors = models.ManyToManyField(Author)
     title = models.CharField(max_length=100)
-    publication_date = models.DateTimeField()
+    publication_date = models.DateField()
     isbn = models.CharField(max_length=16)
     slug = models.SlugField()
     cover = models.ImageField()
