@@ -1,15 +1,31 @@
 <div class="container">
-  <nav class="navbar navbar-expand-lg navbar-dark bg-info rounded">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary rounded" style="color: white; font-weight: bold">
     <a class="navbar-brand" href="{% url 'books:book-list' %}">Ebook Shop</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample09"
+            aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarsExample09">
       <ul class="navbar-nav mr-auto">
+      {% if request.user.is_staff %}
+
+          <div class="dropdown">
+  <button class="btn btn-warning dropdown-toggle text-secondary" type="button" id="dropdownMenu2" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false"><strong> Add menu </strong>
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+      <button class="dropdown-item"><a href="{% url 'books:add-author' %}"> Add Author</a></button>
+      <button class="dropdown-item"><a href="{% url 'books:add-book' %}"> Add Course</a></button>
+      <button class="dropdown-item"><a href="{% url 'books:add-chapter' %}"> Add Chapter</a></button>
+      <button class="dropdown-item"><a href="{% url 'books:add-exercise' %}"> Add Exercise</a></button>
+      <button class="dropdown-item"><a href="{% url 'books:add-solution' %}"> Add Solution</a></button>
+  </div>
+          </div>
+      {% endif %}
           {% if request.user.is_authenticated %}
-              <li class="nav-item">
-                  <a class="nav-link" href="{% url 'books:logout' %}">Logout</a>
+              <li class="nav-item form-inline my-2 my-md-0">
+                  <a class="nav-link " href="{% url 'books:logout' %}">Logout</a>
               </li>
           {% else %}
               <li class="nav-item">
@@ -20,9 +36,7 @@
               </li>
           {% endif %}
       </ul>
-      <form class="form-inline my-2 my-md-0">
-        <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-      </form>
+      <span class="form-inline my-2 my-md-0" style="color: white; font-size: large"><strong>Hello, {{ request.user }}</strong></span>
     </div>
   </nav>
 </div>

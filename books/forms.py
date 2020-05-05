@@ -1,6 +1,9 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django import forms
+from django.views.generic import CreateView, DeleteView
+
+from .models import Book, Exercise
 
 
 class RegistrationForm(forms.ModelForm):
@@ -39,3 +42,15 @@ class LoginForm(forms.Form):
             if not user.is_active:
                 raise forms.ValidationError('This user is active')
         return super(LoginForm, self).clean(*args, **kwargs)
+
+class AddBook(forms.ModelForm):
+    class Meta:
+        model = Book
+        fields = '__all__'
+        exclude = ['publication_date', 'isbn', 'price']
+
+# class AddExercise(forms.ModelForm):
+#     class Meta:
+#         model = Exercise
+#         fields = '__all__'
+#

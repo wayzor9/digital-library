@@ -8,7 +8,6 @@
     </li>
 {% endblock %}
 
-
 {% block content %}
     <div class="row">
 
@@ -19,20 +18,35 @@
             <div class="card-body">
                 <p class="card-text">Published: {{ book.publication_date }}</p>
             </div>
+                <div class="card-footer">
+                <a href="#" style="color: black; background-color: darkorange" class="btn btn-warning btn-block ">
+                        Add to cart</a>
+                </div>
         </div>
     </main>
 
     <aside class="col-md-8">
         <div class="card">
           <div class="card-header">
-            Spis Rzeczy
+            Table of contents
           </div>
             <ul class="list-group list-group-flush">
                 {% for chapter in book.chapter_set.all %}
-                    <li class="list-group-item">
+                    <li class="list-group-item mt-2">
                         <a href="{{ chapter.get_url }}">
                             {{ chapter.chapter_number }}. {{ chapter.title }}
                         </a>
+                        {% if user.is_staff %}
+
+                        <button class="btn btn-danger float-right ml-2">
+                            <a style="color: white" href="{% url 'books:delete-chapter' chapter.id %}">
+                                Delete</a></button>
+                        <button class="btn btn-secondary float-right ml-2">
+                            <a style="color: white" href="{% url 'books:update-chapter' chapter.id %}">
+                                Update</a></button>
+
+
+                    {% endif %}
                     </li>
                 {% endfor %}
             </ul>
@@ -40,7 +54,7 @@
     </aside>
     </div>
 {% endblock %}
-
+{#style="display: inline-block;float: right#}
 
 {#        <li><a href="{% url 'books:chapter-detail' book.slug chapter.chapter_number %}"> {{ chapter.title }}</a></li>#}
 {#        {% for chapter in book.chapter_set.all %}#}

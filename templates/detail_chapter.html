@@ -38,7 +38,15 @@
                         <a href="{{ exercise.get_url }}">
                             {{ exercise.exercise_number }}. {{ exercise.title }}
                         </a>
+                        {%if user.is_staff%}
+                    <button class="btn btn-danger float-right ml-2">
+                            <a style="color: white" href="{% url 'books:delete-exercise' exercise.id %}">
+                                Delete</a></button>
+                        <button class="btn btn-secondary float-right ml-2">
+                            <a style="color: white" href="{% url 'books:update-exercise' exercise.id %}">
+                                Update</a></button>
                     </li>
+                    {% endif %}
                 {% endfor %}
             </ul>
         </div>
