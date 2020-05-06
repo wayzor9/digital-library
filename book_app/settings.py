@@ -40,7 +40,6 @@ INSTALLED_APPS = [
 
     'crispy_forms',
 
-    'shopping_cart',
     'books',
 ]
 
@@ -82,7 +81,7 @@ WSGI_APPLICATION = 'book_app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'book_app',
+        'NAME': 'final_p',
         'PASSWORD': 'coderslab',
         "USER" : 'postgres',
         "HOST": 'localhost'

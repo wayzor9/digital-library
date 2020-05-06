@@ -10,7 +10,6 @@
 
 {% block content %}
     <div class="row">
-
     <main class="col-md-4">
         <div class="card" style="width: 18rem;">
             <div class="card-header">{{ book.title }}</div>
@@ -19,7 +18,7 @@
                 <p class="card-text">Published: {{ book.publication_date }}</p>
             </div>
                 <div class="card-footer">
-                <a href="#" style="color: black; background-color: darkorange" class="btn btn-warning btn-block ">
+                <a href="{% url 'books:update-order' book.slug %}" style="color: black; background-color: darkorange" class="btn btn-warning btn-block ">
                         Add to cart</a>
                 </div>
         </div>

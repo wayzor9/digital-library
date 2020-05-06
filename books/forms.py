@@ -47,7 +47,7 @@ class AddBook(forms.ModelForm):
     class Meta:
         model = Book
         fields = '__all__'
-        exclude = ['publication_date', 'isbn', 'price']
+        exclude = ['publication_date', 'isbn']
 
 # class AddExercise(forms.ModelForm):
 #     class Meta:

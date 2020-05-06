@@ -22,7 +22,6 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('books.urls', namespace = 'books')),
-    path('cart/', include('shopping_cart.urls', namespace= 'shopping_cart'))
 ]
 
 if settings.DEBUG:

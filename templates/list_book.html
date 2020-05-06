@@ -4,63 +4,43 @@
     <li class="breadcrumb-item active mt-2" aria-current="page">Book list</li>
 {% endblock %}
 
-
 {% block content %}
-<h2>This is a book list</h2>
+
+    <h2>This is a book list</h2>
 <hr />
+<div class="row">
+    {% for book in query_set %}
+        <div class="col-4">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h4 class="card-title">{{ book.title }}</h4>
+                <h6 class="card-subtitle mb-2 text-muted">{{ book.publication_date }}</h6>
+                <p class="card-text">
+                    {% for author in book.authors.all %}
+                        <span> {{ author }}</span>
+                        {% if book.authors.count > 1 %} | {% endif %}
+                    {% endfor %}
+                </p>
+                <a href="{{ book.get_url }}" class="card-link">{{ book }}</a>
+            </div>
 
-    <div class="row content-center">
-{% for book in query_set %}
+            {% if request.user.is_staff %}
+                <div class="card-footer bg-light">
+                    <div class="container content-center">
+                        <button class="btn btn-secondary btn-block mb-2">
+                            <a style="color: white" href="{% url 'books:update-book' book.slug %}">
+                                Update</a></button>
+                        <button class="btn btn-danger btn-block mb-2">
+                            <a style="color: white" href="{% url 'books:delete-book' book.slug %}">
+                                Delete</a></button>
+                    </div>
+                </div>
+            {% endif %}
 
-    <div class="card mb-5 ml-5 col-3 offset-4 container content-center" style="width: 28rem;">
-  <div class="card-body ">
-    <h4 class="card-title">{{ book.title }}</h4>
-    <h6 class="card-subtitle mb-2 text-muted">{{ book.publication_date }}</h6>
-    <p class="card-text">
-        {% for author in book.authors.all %}
-            <span> {{ author }}</span>
-            {% if book.authors.count > 1 %} | {% endif %}
-        {% endfor %}
-    </p>
-    <a href="{{ book.get_url }}" class="card-link">{{ book }}</a>
-  </div>
-    {% if request.user.is_staff %}
-    <div class="card-footer bg-light">
-        <div class="container content-center">
-        <button class="btn btn-secondary btn-block mb-2">
-            <a style="color: white" href="{% url 'books:update-book' book.slug %}">
-            Update</a></button>
-        <button class="btn btn-danger btn-block mb-2">
-            <a style="color: white" href="{% url 'books:delete-book' book.slug %}">
-            Delete</a></button>
         </div>
-    </div>
-    {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}
 </div>
 
 {#    <p><a href="{% url 'books:book-detail' book.slug %}">{{ book }}</a></p>#}
-{% endfor %}
-    </div>
-
-
-<div class="pagination">
-    <span class="step-links">
-        {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-        {% endif %}
-
-        <span class="current">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </span>
-
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-        {% endif %}
-    </span>
-</div>
-
-
-
-{% endblock %}

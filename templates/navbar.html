@@ -1,6 +1,6 @@
 <div class="container">
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary rounded" style="color: white; font-weight: bold">
-    <a class="navbar-brand" href="{% url 'books:book-list' %}">Ebook Shop</a>
+  <nav class="navbar navbar-expand-lg rounded" style="color: white; font-weight: bold; background-color: darkviolet">
+    <a class= "navbar-brand" href="{% url 'books:book-list' %}">Ebook Shop</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample09"
             aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -25,18 +25,29 @@
       {% endif %}
           {% if request.user.is_authenticated %}
               <li class="nav-item form-inline my-2 my-md-0">
-                  <a class="nav-link " href="{% url 'books:logout' %}">Logout</a>
+                  <a style="color: white" class="nav-link " href="{% url 'books:logout' %}">Logout</a>
               </li>
           {% else %}
               <li class="nav-item">
-                  <a class="nav-link" href="{% url 'books:login' %}">Login</a>
+                  <a style="color: white" class="nav-link" href="{% url 'books:login' %}">Login</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link" href="{% url 'books:registration' %}">Sign Up</a>
+                  <a style="color: white" class="nav-link" href="{% url 'books:registration' %}">Sign Up</a>
               </li>
           {% endif %}
       </ul>
-      <span class="form-inline my-2 my-md-0" style="color: white; font-size: large"><strong>Hello, {{ request.user }}</strong></span>
+
+{% if user.is_authenticated and not user.is_staff %}
+    <ul class="nav navbar-nav navbar-right">
+     <li class=nav-item">
+                  <a style="color: white" class="nav-link " href="{% url 'books:view' %}">Cart</a>
+              </li>
+{#       <span class="mt-2 ml-5" style="color: white">#}
+{#           <strong>Hello, {{ request.user }}!</strong></span>#}
+    </ul>
+{% endif %}
+
     </div>
+
   </nav>
 </div>

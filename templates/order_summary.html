@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+   <div class="container col-sm-8 col-sm-offset-2 mt-5">
+
+{% block content %}
+    {% if empty %}
+       <h3 class="info mt-5" style="text-align: center"> {{ empty_message }} </h3>
+    {% else %}
+   <table class="table table-hover ">
+       <thead>
+       <th> Item </th>
+       <th>Price</th>
+       <th></th>
+       </thead>
+       <tfoot>
+       <tr>
+           <td></td>
+           <td>Total: {{ order.total }}</td>
+       </tr>
+       </tfoot>
+       {% for item in order.books.all %}
+       <tr><td>{{ item }}</td><td>{{ item.price }}</td><td><a style="color: red" href="{% url 'books:update-order' item.slug %}">Remove</a></td></tr>
+       {% endfor %}
+   </table>
+
+    {% endif %}
+      </div>
+{% endblock %}

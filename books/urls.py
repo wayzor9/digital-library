@@ -5,7 +5,7 @@ from .views import (book_list, book_detail, chapter_detail,
                     LogOutView, AddBookView, AddAuthorView, AddChapterView,
                     AddExerciseView, AddSolutionView, UpdateBookView, BookDeleteView,
                     UpdateChapterView, ChapterDeleteView, UpdateExerciseView,
-                    ExerciseDeleteView, UpdateSolutionView, SolutionDeleteView)
+                    ExerciseDeleteView, UpdateSolutionView, SolutionDeleteView, update_cart, order_cart_view)
 
 
 app_name = 'books'
@@ -36,4 +36,7 @@ urlpatterns = [
     path('delete_chapter/<int:pk>/', ChapterDeleteView.as_view(), name='delete-chapter'),
     path('delete_exercise/<int:pk>/', ExerciseDeleteView.as_view(), name='delete-exercise'),
     path('delete_solution/<int:pk>/', SolutionDeleteView.as_view(), name='delete-solution'),
+
+    path('order_cart_view/', order_cart_view, name='view'),
+    path('update_cart/<book_slug>/', update_cart, name='update-order')
 ]

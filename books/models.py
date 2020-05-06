@@ -8,8 +8,8 @@ from django.contrib.auth.models import User
 
 
 class Customer(models.Model):
-    books = models.ManyToManyField('Book')
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+    books = models.ManyToManyField('Book', blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.user.username
@@ -27,7 +27,6 @@ post_save.connect(post_signup_user_receiver, User)
 class Author(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=50)
-    slug = models.SlugField()
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
@@ -37,7 +36,6 @@ class Book(models.Model):
     authors = models.ManyToManyField(Author)
     title = models.CharField(max_length=100)
     publication_date = models.DateField(auto_now_add=True)
-    isbn = models.CharField(max_length=16, blank=True)
     slug = models.SlugField()
     cover = models.ImageField()
     price = models.FloatField(blank=True, null=True)
@@ -65,7 +63,6 @@ class Chapter(models.Model):
 class Exercise(models.Model):
     chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE)
     exercise_number = models.IntegerField()
-    page_number = models.IntegerField()
     title = models.CharField(max_length=100)
 
     def __str__(self):
@@ -84,6 +81,14 @@ class Solution(models.Model):
     image = models.ImageField()
     solution_number = models.IntegerField()
 
-
     def __str__(self):
         return f'{self.exercise.title} {self.pk}'
+
+
+class Order(models.Model):
+    books = models.ManyToManyField(Book, blank=True)
+    total = models.DecimalField(max_digits = 10, decimal_places=2, default=0.00)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Order id: {self.id}"
