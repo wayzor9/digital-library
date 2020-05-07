@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import datetime as dt
 # Create your models here.
+from django.db.models import Sum
 from django.db.models.signals import post_save
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -20,7 +21,6 @@ class Customer(models.Model):
 def post_signup_user_receiver(sender, instance, created, *args, **kwargs):
     if created:
         Customer.objects.get_or_create(user=instance)
-        print(f"CREATE CUSTOMER ---> {instance}")
 
 post_save.connect(post_signup_user_receiver, User)
 
@@ -75,7 +75,6 @@ class Exercise(models.Model):
             'exercise_number' :self.exercise_number
         })
 
-
 class Solution(models.Model):
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
     image = models.ImageField()
@@ -84,11 +83,23 @@ class Solution(models.Model):
     def __str__(self):
         return f'{self.exercise.title} {self.pk}'
 
-
-class Order(models.Model):
-    books = models.ManyToManyField(Book, blank=True)
-    total = models.DecimalField(max_digits = 10, decimal_places=2, default=0.00)
-    timestamp = models.DateTimeField(auto_now_add=True)
+class OrderItem(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
-        return f"Order id: {self.id}"
+        return self.book.title
+
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    is_ordered = models.BooleanField(default=False)
+    items = models.ManyToManyField(OrderItem)
+
+    def __str__(self):
+        return self.user.username
+
+    def get_total(self):
+        return self.items.all().aggregate(order_total=Sum('book__price'))['order_total']
+
+
+
+

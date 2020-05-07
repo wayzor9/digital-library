@@ -2,26 +2,34 @@
    <div class="container col-sm-8 col-sm-offset-2 mt-5">
 
 {% block content %}
-    {% if empty %}
-       <h3 class="info mt-5" style="text-align: center"> {{ empty_message }} </h3>
-    {% else %}
-   <table class="table table-hover ">
+    <h1>Order Summary</h1>
+    <hr/>
+
+   <table class="table table-hover table-bordered text-center ">
        <thead>
        <th> Item </th>
        <th>Price</th>
-       <th></th>
+       <th>Remove</th>
        </thead>
        <tfoot>
        <tr>
            <td></td>
-           <td>Total: {{ order.total }}</td>
+           <td>Total: ${{ order.get_total }} </td>
        </tr>
        </tfoot>
-       {% for item in order.books.all %}
-       <tr><td>{{ item }}</td><td>{{ item.price }}</td><td><a style="color: red" href="{% url 'books:update-order' item.slug %}">Remove</a></td></tr>
+       {% for item in order.items.all %}
+       <tr>
+           <td>{{ item.book.title }}</td>
+           <td>$ {{item.book.price }}</td>
+           <td><span><a href="{% url 'books:remove-from-cart' item.book.slug %}">
+               <i style="color: red" class="fas fa-trash"></i></a></span></td>
+       </tr>
+       {% empty %}
+           <tr>
+               <td colspan="3"><h2>There are no items in your cart. Please, keep shopping :)</h2>
+               </td>
+           </tr>
        {% endfor %}
    </table>
-
-    {% endif %}
-      </div>
+    </div>
 {% endblock %}

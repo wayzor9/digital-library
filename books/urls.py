@@ -5,7 +5,8 @@ from .views import (book_list, book_detail, chapter_detail,
                     LogOutView, AddBookView, AddAuthorView, AddChapterView,
                     AddExerciseView, AddSolutionView, UpdateBookView, BookDeleteView,
                     UpdateChapterView, ChapterDeleteView, UpdateExerciseView,
-                    ExerciseDeleteView, UpdateSolutionView, SolutionDeleteView, update_cart, order_cart_view)
+                    ExerciseDeleteView, UpdateSolutionView, SolutionDeleteView, add_to_cart, remove_from_cart,
+                    summary_view,)
 
 
 app_name = 'books'
@@ -19,6 +20,11 @@ urlpatterns = [
     path('<slug>', book_detail , name='book-detail'),
     path('<book_slug>/<int:chapter_number>', chapter_detail, name='chapter-detail'),
     path('<book_slug>/<int:chapter_number>/<int:exercise_number>', exercise_detail, name='exercise-detail'),
+
+
+    path('add_to_cart/<book_slug>/', add_to_cart, name="add-to-cart"),
+    path('remove_from_cart/<book_slug>/', remove_from_cart, name="remove-from-cart"),
+    path('summary/', summary_view, name= "summary"),
 
     path('add_book/', AddBookView.as_view(), name='add-book'),
     path('add_author/', AddAuthorView.as_view(), name='add-author'),
@@ -37,6 +43,4 @@ urlpatterns = [
     path('delete_exercise/<int:pk>/', ExerciseDeleteView.as_view(), name='delete-exercise'),
     path('delete_solution/<int:pk>/', SolutionDeleteView.as_view(), name='delete-solution'),
 
-    path('order_cart_view/', order_cart_view, name='view'),
-    path('update_cart/<book_slug>/', update_cart, name='update-order')
 ]

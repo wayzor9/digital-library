@@ -24,13 +24,7 @@
 
     <div class="row">
     <main class="col-md-4">
-        <div class="card" style="width: 18rem;">
-            <div class="card-header">{{ exercise.chapter.book.title }}</div>
-            <img src="{{exercise.chapter.book.cover.url}}" class="card-img-top" alt="...">
-            <div class="card-body">
-                <p class="card-text">Published: {{exercise.chapter.book.publication_date}}</p>
-            </div>
-        </div>
+        {% include 'book_card.html' with book=exercise.chapter.book %}
     </main>
 
 
@@ -40,7 +34,7 @@
             Solutions
         </div>
 
-{#    {% if not request.user.is_authenticated %}#}
+    {% if check_book_status == 'in_cart' %}
 
             {% for solution in exercise.solution_set.all %}
             <div class="accordion" id="toggle-{{ solution.solution_number }}">
@@ -71,15 +65,14 @@
             </div>
             {% endfor %}
 
-{#        {% endif %}#}
-{##}
-{#        <div class="text-center mt-2">#}
-{#            <h4>You do not have access to this book.#}
-{#            <a href="#"> Purchase now!</a></h4>#}
-{#            <img src="{% static 'images/lock.png' %}" width="160px" >#}
-{#        </div>#}
-{#    {% endif %}#}
-
+    {% endif %}
+{% if check_book_status != 'in_cart' %}
+        <div class="text-center mt-2">
+            <h4>You do not have access to this book.
+            <a href="#"> Purchase now!</a></h4>
+            <img src="{% static 'images/lock.png' %}" width="160px" >
+        </div>
+{% endif %}
         </div>
     </aside>
     </div>

@@ -1,6 +1,6 @@
 <div class="container">
   <nav class="navbar navbar-expand-lg rounded" style="color: white; font-weight: bold; background-color: darkviolet">
-    <a class= "navbar-brand" href="{% url 'books:book-list' %}">Ebook Shop</a>
+    <a style="color: chartreuse" class= "navbar-brand" href="{% url 'books:book-list' %}">PyShop</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample09"
             aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -9,7 +9,9 @@
     <div class="collapse navbar-collapse" id="navbarsExample09">
       <ul class="navbar-nav mr-auto">
       {% if request.user.is_staff %}
-
+ <li class="nav-item">
+                  <a style="color: white" class="nav-link " href="{% url 'books:logout' %}">Logout</a>
+              </li>
           <div class="dropdown">
   <button class="btn btn-warning dropdown-toggle text-secondary" type="button" id="dropdownMenu2" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false"><strong> Add menu </strong>
@@ -23,11 +25,16 @@
   </div>
           </div>
       {% endif %}
-          {% if request.user.is_authenticated %}
-              <li class="nav-item form-inline my-2 my-md-0">
+          {% if user.is_authenticated and not user.is_staff %}
+              <li class="nav-item">
                   <a style="color: white" class="nav-link " href="{% url 'books:logout' %}">Logout</a>
               </li>
-          {% else %}
+              <li class="nav-item">
+                  <a class="nav-link" href="{% url 'books:summary' %}">
+                      <i class="fas fa-shopping-cart text-white"></i>
+                  </a>
+              </li>
+                  {% elif not user.is_authenticated %}
               <li class="nav-item">
                   <a style="color: white" class="nav-link" href="{% url 'books:login' %}">Login</a>
               </li>
@@ -35,19 +42,12 @@
                   <a style="color: white" class="nav-link" href="{% url 'books:registration' %}">Sign Up</a>
               </li>
           {% endif %}
-      </ul>
-
-{% if user.is_authenticated and not user.is_staff %}
-    <ul class="nav navbar-nav navbar-right">
-     <li class=nav-item">
-                  <a style="color: white" class="nav-link " href="{% url 'books:view' %}">Cart</a>
-              </li>
-{#       <span class="mt-2 ml-5" style="color: white">#}
-{#           <strong>Hello, {{ request.user }}!</strong></span>#}
-    </ul>
-{% endif %}
-
+          </ul>
     </div>
-
+          {% if user.is_authenticated %}
+              <li class="form-inline my-2 my-lg-0">
+                  <span style="color: chartreuse; font-weight: bold" class="ml-3">Hello, {{ user.username | title}}!</span>
+              </li>
+          {% endif %}
   </nav>
 </div>

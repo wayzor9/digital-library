@@ -10,19 +10,9 @@
 
 {% block content %}
     <div class="row">
-    <main class="col-md-4">
-        <div class="card" style="width: 18rem;">
-            <div class="card-header">{{ book.title }}</div>
-            <img src="{{book.cover.url}}" class="card-img-top" alt="...">
-            <div class="card-body">
-                <p class="card-text">Published: {{ book.publication_date }}</p>
-            </div>
-                <div class="card-footer">
-                <a href="{% url 'books:update-order' book.slug %}" style="color: black; background-color: darkorange" class="btn btn-warning btn-block ">
-                        Add to cart</a>
-                </div>
-        </div>
-    </main>
+        <main class="col-md-4">
+{% include 'book_card.html' with book=book %}
+        </main>
 
     <aside class="col-md-8">
         <div class="card">
@@ -35,23 +25,22 @@
                         <a href="{{ chapter.get_url }}">
                             {{ chapter.chapter_number }}. {{ chapter.title }}
                         </a>
-                        {% if user.is_staff %}
 
+                        {% if user.is_staff %}
                         <button class="btn btn-danger float-right ml-2">
                             <a style="color: white" href="{% url 'books:delete-chapter' chapter.id %}">
                                 Delete</a></button>
                         <button class="btn btn-secondary float-right ml-2">
                             <a style="color: white" href="{% url 'books:update-chapter' chapter.id %}">
                                 Update</a></button>
-
-
-                    {% endif %}
+                        {% endif %}
                     </li>
+
                 {% endfor %}
             </ul>
         </div>
     </aside>
-    </div>
+ </div>
 {% endblock %}
 {#style="display: inline-block;float: right#}
 
