@@ -34,11 +34,11 @@ class RegistrationView(View):
 
 class LoginView(View):
     def get(self, request):
-        next = request.GET.get('next')
         form = LoginForm
         return render(request, 'login_view.html', {'form': form})
 
     def post(self, request):
+        next = request.GET.get('next')
         form = LoginForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
@@ -46,8 +46,8 @@ class LoginView(View):
             auth_user = authenticate(username = username, password = password)
             if auth_user is not None:
                 login(request, auth_user)
-                # if next:
-                #     return redirect(next)
+                if next:
+                    return redirect(next)
                 return redirect('/')
             else:
                 messages.info(request, "Username or Password incorrect")
@@ -80,8 +80,18 @@ def check_book_relationship(request, book):
 
 
 def book_list(request):
+    list_of_books = Book.objects.all()
+    paginator = Paginator(list_of_books, 3)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'list_book.html', {'page_obj': page_obj})
+
+
+def book_list2(request):
     query_set = Book.objects.all()
     return render(request, 'list_book.html', {'query_set':query_set})
+
 
 @login_required
 def book_detail(request, slug):

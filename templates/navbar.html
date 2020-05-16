@@ -13,12 +13,12 @@
                   <a style="color: white" class="nav-link " href="{% url 'books:logout' %}">Logout</a>
               </li>
           <div class="dropdown">
-  <button class="btn btn-warning dropdown-toggle text-secondary" type="button" id="dropdownMenu2" data-toggle="dropdown"
+  <button class="btn btn-warning dropdown-toggle text-secondary"  type="button" id="dropdownMenu2" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false"><strong> Add menu </strong>
   </button>
   <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
       <button class="dropdown-item"><a href="{% url 'books:add-author' %}"> Add Author</a></button>
-      <button class="dropdown-item"><a href="{% url 'books:add-book' %}"> Add Course</a></button>
+      <button class="dropdown-item"><a href="{% url 'books:add-book' %}"> Add Book</a></button>
       <button class="dropdown-item"><a href="{% url 'books:add-chapter' %}"> Add Chapter</a></button>
       <button class="dropdown-item"><a href="{% url 'books:add-exercise' %}"> Add Exercise</a></button>
       <button class="dropdown-item"><a href="{% url 'books:add-solution' %}"> Add Solution</a></button>
@@ -34,7 +34,7 @@
                       <i class="fas fa-shopping-cart text-white"></i>
                   </a>
               </li>
-                  {% elif not user.is_authenticated %}
+          {% elif not user.is_authenticated %}
               <li class="nav-item">
                   <a style="color: white" class="nav-link" href="{% url 'books:login' %}">Login</a>
               </li>

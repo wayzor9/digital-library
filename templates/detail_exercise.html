@@ -68,8 +68,9 @@
     {% endif %}
 {% if check_book_status != 'in_cart' %}
         <div class="text-center mt-2">
-            <h4>You do not have access to this book.
-            <a href="#"> Purchase now!</a></h4>
+            <h4>You do not have access to this book.<br> Add book to your cart in order to get access!</h4>
+            <br>
+
             <img src="{% static 'images/lock.png' %}" width="160px" >
         </div>
 {% endif %}

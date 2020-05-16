@@ -12,10 +12,13 @@
        <th>Remove</th>
        </thead>
        <tfoot>
-       <tr>
-           <td></td>
-           <td>Total: ${{ order.get_total }} </td>
-       </tr>
+        <tr>
+       <td colspan="3">
+           <a href="{% url 'books:book-list' %}" class="btn btn-warning">
+               Continue Shopping
+           </a>
+       </td>
+   </tr>
        </tfoot>
        {% for item in order.items.all %}
        <tr>
@@ -30,6 +33,12 @@
                </td>
            </tr>
        {% endfor %}
+   {% if order.get_total %}
+   <tr>
+           <td><strong>Total: </strong> </td>
+       <td><strong>$ {{ order.get_total }} </strong></td>
+       </tr>
+{% endif %}
    </table>
     </div>
 {% endblock %}
