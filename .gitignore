@@ -3,7 +3,6 @@
 # Edit at https://www.gitignore.io/?templates=django
 
 ### Django ###
-media_root
 *.log
 *.pot
 *.pyc
