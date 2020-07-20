@@ -89,6 +89,7 @@ class OrderItem(models.Model):
     def __str__(self):
         return self.book.title
 
+
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     is_ordered = models.BooleanField(default=False)

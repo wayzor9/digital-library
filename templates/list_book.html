@@ -11,7 +11,7 @@
 
 {% block content %}
 
-<h4 style="color: dodgerblue; font-weight: bold; font-size: x-large" class="text-center">I'll take you to the Python Shop</h4>
+<h4 style="color: dodgerblue; font-weight: bold; font-size: x-large" class="text-center">Welcome in our library!</h4>
 <hr />
 
 <div class="row">
@@ -56,29 +56,8 @@
 </style>
 
 
-{#<div class="pagination mt-5 mb-8">#}
-{#    <span class="step-links">#}
-{#        {% if page_obj.has_previous %}#}
-{#            <a class="pagination" href="?page=1">&laquo; first</a>#}
-{#            <a class="pagination" href="?page={{ page_obj.previous_page_number }}">previous</a>#}
-{#        {% endif %}#}
-{##}
-{#        <span class="current">#}
-{#            Page  {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.#}
-{#        </span>#}
-{##}
-{#        {% if page_obj.has_next %}#}
-{#            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">next</a>#}
-{#            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>#}
-{#        {% endif %}#}
-{#    </span>#}
-{#</div>#}
-
-
-
 <div class="container text-center">
         {% if page_obj.has_previous %}
-{#            <a class="btn btn-outline-info mb-4" href="?page=1">First</a>#}
             <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
         {% endif %}
         {% for num in page_obj.paginator.page_range %}
@@ -90,7 +69,6 @@
         {% endfor %}
         {% if page_obj.has_next %}
             <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
-{#            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>#}
             {% endif %}
 
 </div>

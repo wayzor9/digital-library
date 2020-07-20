@@ -13,29 +13,28 @@ app_name = 'books'
 
 urlpatterns = [
     path('registration/', RegistrationView.as_view(), name='registration'),
-    path('login/', LoginView.as_view(), name= 'login'),
-    path('logout/', LogOutView.as_view(), name = 'logout'),
+    path('login/', LoginView.as_view(), name='login'),
+    path('logout/', LogOutView.as_view(), name='logout'),
 
-    path('', book_list,name = 'book-list'),
-    path('<slug>', book_detail , name='book-detail'),
+    path('', book_list, name='book-list'),
+    path('<slug>', book_detail, name='book-detail'),
     path('<book_slug>/<int:chapter_number>', chapter_detail, name='chapter-detail'),
     path('<book_slug>/<int:chapter_number>/<int:exercise_number>', exercise_detail, name='exercise-detail'),
 
 
     path('add_to_cart/<book_slug>/', add_to_cart, name="add-to-cart"),
     path('remove_from_cart/<book_slug>/', remove_from_cart, name="remove-from-cart"),
-    path('summary/', summary_view, name= "summary"),
+    path('summary/', summary_view, name="summary"),
 
     path('add_book/', AddBookView.as_view(), name='add-book'),
     path('add_author/', AddAuthorView.as_view(), name='add-author'),
     path('add_chapter/', AddChapterView.as_view(), name='add-chapter'),
-    path('add_exercise/', AddExerciseView.as_view(), name= 'add-exercise'),
+    path('add_exercise/', AddExerciseView.as_view(), name='add-exercise'),
     path('add_solution/', AddSolutionView.as_view(), name='add-solution'),
 
     path('update_book/<slug>/', UpdateBookView.as_view(), name='update-book'),
-    # path('add_author/', AddAuthorView.as_view(), name='add-author'),
     path('chapter_update/<int:pk>/', UpdateChapterView.as_view(), name='update-chapter'),
-    path('exercise_update/<int:pk>/', UpdateExerciseView.as_view(), name= 'update-exercise'),
+    path('exercise_update/<int:pk>/', UpdateExerciseView.as_view(), name='update-exercise'),
     path('solution_update/<int:pk>/', UpdateSolutionView.as_view(), name='update-solution'),
 
     path('delete_book/<slug>/', BookDeleteView.as_view(), name='delete-book'),

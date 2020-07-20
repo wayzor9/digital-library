@@ -1,26 +1,20 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.core.paginator import Paginator
-from django.forms import ModelForm
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponseRedirect
-# Create your views here.
-from django.urls import reverse
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.views.generic.base import View
+
 from .models import Book, Chapter, Exercise, Author, Solution, OrderItem, Order
 from .forms import RegistrationForm, LoginForm, AddBook
 
 
-
-
-### AUTHORIZATION ###
 class RegistrationView(View):
     def get(self, request):
         form = RegistrationForm()
-        return render(request, 'register_view.html', {"form":form})
+        return render(request, 'register_view.html', {"form": form})
 
     def post(self, request):
         form = RegistrationForm(request.POST)
@@ -31,6 +25,7 @@ class RegistrationView(View):
             messages.success(request, "Account created successfully for " + user.username )
             return redirect('books:login')
         return render(request, 'register_view.html', {"form": form})
+
 
 class LoginView(View):
     def get(self, request):
@@ -54,16 +49,17 @@ class LoginView(View):
 
         return render(request, 'login_view.html', {'form': form})
 
+
 class LogOutView(View):
     def get(self, request):
         logout(request)
         return redirect('/')
 
-#### BOOK ####
 
 OWNED = 'owned'
 IN_CART = 'in_cart'
 NOT_IN_CART = 'not_in_cart'
+
 
 def check_book_relationship(request, book):
     if book in request.user.customer.book_list():
@@ -90,24 +86,27 @@ def book_list(request):
 
 def book_list2(request):
     query_set = Book.objects.all()
-    return render(request, 'list_book.html', {'query_set':query_set})
+    return render(request, 'list_book.html', {'query_set': query_set})
 
 
 @login_required
 def book_detail(request, slug):
     book = get_object_or_404(Book, slug=slug)
     check_book_status = check_book_relationship(request, book)
-    return render(request, 'detail_book.html', {'book': book, 'check_book_status':check_book_status})
+    return render(request, 'detail_book.html', {'book': book, 'check_book_status': check_book_status})
+
 
 @login_required
 def chapter_detail(request, book_slug, chapter_number):
     chapter_qs = Chapter.objects.filter(book__slug=book_slug)\
         .filter(chapter_number=chapter_number)
     chapter = chapter_qs[0]
-    check_book_status =  check_book_relationship(request, chapter.book)
+    check_book_status = check_book_relationship(request, chapter.book)
     if chapter_qs.exists():
-        return render(request, 'detail_chapter.html', {'chapter':chapter, 'check_book_status': check_book_status})
+        return render(request, 'detail_chapter.html',
+                      {'chapter': chapter, 'check_book_status': check_book_status})
     return Http404
+
 
 @login_required
 def exercise_detail(request, book_slug, chapter_number, exercise_number):
@@ -117,9 +116,10 @@ def exercise_detail(request, book_slug, chapter_number, exercise_number):
     exercise = exercise_qs[0]
     check_book_status = check_book_relationship(request, exercise.chapter.book)
     if exercise_qs.exists():
-        return render(request, 'detail_exercise.html', {'exercise':exercise,
-                        'check_book_status': check_book_status })
+        return render(request, 'detail_exercise.html',
+                      {'exercise': exercise, 'check_book_status': check_book_status})
     return Http404
+
 
 @login_required
 def add_to_cart(request, book_slug):
@@ -130,22 +130,22 @@ def add_to_cart(request, book_slug):
     order.save()
     return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
 
+
 @login_required
 def remove_from_cart(request, book_slug):
     book = get_object_or_404(Book, slug=book_slug)
-    order_item = get_object_or_404(OrderItem,book=book)
+    order_item = get_object_or_404(OrderItem, book=book)
     order = Order.objects.get(user=request.user, is_ordered=False)
     order.items.remove(order_item)
     order.save()
     return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
+
 
 @login_required
 def summary_view(request):
     order, created = Order.objects.get_or_create(user=request.user)
     return render(request, 'order_summary.html', {'order': order})
 
-
-###  CBS CRUD ###
 
 class AddBookView(CreateView):
     form_class = AddBook
@@ -158,6 +158,7 @@ class AddBookView(CreateView):
             'view_type': 'add new book'
         })
         return context
+
 
 class UpdateBookView(UpdateView):
     form_class = AddBook
@@ -176,7 +177,6 @@ class BookDeleteView(DeleteView):
     model = Book
     success_url = '/'
 
-###  author
 
 class AddAuthorView(CreateView):
     model = Author
@@ -192,14 +192,11 @@ class AddAuthorView(CreateView):
         return context
 
 
-###  Chapter
 class AddChapterView(CreateView):
     model = Chapter
     fields = '__all__'
     success_url = '/'
     template_name = 'books/book_form.html'
-
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -207,6 +204,7 @@ class AddChapterView(CreateView):
             'view_type': 'add new chapter'
         })
         return context
+
 
 class UpdateChapterView(UpdateView):
     model = Chapter
@@ -220,12 +218,12 @@ class UpdateChapterView(UpdateView):
         })
         return context
 
+
 class ChapterDeleteView(DeleteView):
     model = Book
     success_url = '/'
     template_name = 'books/book_confirm_delete.html'
 
-### exercise
 
 class AddExerciseView(CreateView):
     model = Exercise
@@ -233,13 +231,13 @@ class AddExerciseView(CreateView):
     success_url = '/'
     template_name = 'books/book_form.html'
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
             'view_type': 'add new exercise'
         })
         return context
+
 
 class UpdateExerciseView(UpdateView):
     model = Exercise
@@ -253,12 +251,13 @@ class UpdateExerciseView(UpdateView):
         })
         return context
 
+
 class ExerciseDeleteView(DeleteView):
     model = Exercise
     success_url = '/'
     template_name = 'books/book_confirm_delete.html'
 
-### solution
+
 class AddSolutionView(CreateView):
     model = Solution
     fields = '__all__'
@@ -278,7 +277,6 @@ class UpdateSolutionView(UpdateView):
     fields = '__all__'
     success_url = '/'
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
@@ -286,8 +284,8 @@ class UpdateSolutionView(UpdateView):
         })
         return context
 
+
 class SolutionDeleteView(DeleteView):
     model = Solution
     success_url = '/'
     template_name = 'books/book_confirm_delete.html'
-
